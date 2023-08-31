@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/app/components/inputs/Input";
+import { Button, Input } from "@/app/components";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
@@ -65,6 +65,9 @@ const AuthForm = () => {
             register={register}
             errors={errors}
           />
+          <div>
+            <Button />
+          </div>
         </form>
       </div>
     </div>
