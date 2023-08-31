@@ -3,6 +3,7 @@
 import { Button, Input } from "@/app/components";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { AuthSocialButton } from ".";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -85,7 +86,9 @@ const AuthForm = () => {
           </div>
         </div>
 
-        <div className="mt-6 flex gap-2"></div>
+        <div className="mt-6 flex gap-2">
+          <AuthSocialButton />
+        </div>
       </div>
     </div>
   );
