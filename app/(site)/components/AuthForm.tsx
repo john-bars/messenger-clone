@@ -2,7 +2,9 @@
 
 import axios from "axios";
 
-import { Button, Input } from "@/app/components";
+import Input from "@/app/components/inputs/Input";
+import Button from "@/app/components/Button";
+
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { BsGithub, BsGoogle } from "react-icons/bs";
