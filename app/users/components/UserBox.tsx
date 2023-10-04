@@ -18,7 +18,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
     setIsLoding(true);
 
     axios
-      .post("/api/convetsations", {
+      .post("/api/conversations", {
         userId: data.id,
       })
       .then((data) => {
