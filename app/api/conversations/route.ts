@@ -1,6 +1,7 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { pusherServer } from "@/app/libs/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -36,6 +37,13 @@ export async function POST(request: Request) {
         },
       });
 
+      // Handles realtime update for creating new conversation for group.
+      newConversation.users.forEach((user) => {
+        if (user.email) {
+          pusherServer.trigger(user.email, "conversation:new", newConversation);
+        }
+      });
+
       return NextResponse.json(newConversation);
     }
 
@@ -59,10 +67,12 @@ export async function POST(request: Request) {
 
     const singleConversation = existingConversations[0];
 
+    // Prevents creating new conversation if the conversation between the 2 users already exist.
     if (singleConversation) {
       return NextResponse.json(singleConversation);
     }
 
+    // Create new conversation and add users[] containing the current user and other user
     const newConversation = await prisma.conversation.create({
       data: {
         users: {
@@ -70,6 +80,13 @@ export async function POST(request: Request) {
         },
       },
       include: { users: true },
+    });
+
+    // Handles realtime creation of new conversation between 2 users.
+    newConversation.users.map((user) => {
+      if (user.email) {
+        pusherServer.trigger(user.email, "conversation:new", newConversation);
+      }
     });
 
     return NextResponse.json(newConversation);
