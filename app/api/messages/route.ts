@@ -1,8 +1,7 @@
-// create the route for "/api/messages"
-
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { pusherServer } from "@/app/libs/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +13,7 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    //Add newMessage data to the database
+    //Add newMessage data to the database. Add the seen[] and sender in the return object
     const newMessage = await prisma.message.create({
       data: {
         body: message,
@@ -62,6 +61,23 @@ export async function POST(request: Request) {
           },
         },
       },
+    });
+
+    // Handles Realtime Update in Creating new Message
+
+    //pusher.trigger(channel, event, {})
+    await pusherServer.trigger(conversationId, "messages:new", newMessage);
+
+    // use '-1' since indexing in array starts with 0 but array.length gets the number of elements in it.
+    const lastMessage =
+      updatedConversation.messages[updatedConversation.messages.length - 1];
+
+    //handles realtime conversation update for the sidebar
+    updatedConversation.users.map((user) => {
+      pusherServer.trigger(user.email!, "conversation:update", {
+        id: conversationId,
+        messages: [lastMessage],
+      });
     });
 
     return NextResponse.json(newMessage);
