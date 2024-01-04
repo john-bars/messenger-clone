@@ -6,11 +6,15 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/libs/prismadb";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
+// Define authentication options.
 export const authOptions: AuthOptions = {
+  // Use PrismaAdapter to connect NextAuth with the Prisma database.
   adapter: PrismaAdapter(prisma),
+
+  // Specify authentication providers (GitHub, Google, and custom Credentials).
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -41,6 +45,7 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid Credentials");
         }
 
+        // Use bcrypt to compare the provided plain-text password with the hashed password stored in the database.
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.hashedPassword
@@ -62,6 +67,7 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
+// Create the NextAuth handler using the defined options.
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

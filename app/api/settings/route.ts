@@ -1,32 +1,36 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/libs/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/libs/prismadb";
 
 export async function POST(request: Request) {
   try {
+    // Get current user information
     const currentUser = await getCurrentUser();
-    const data = await request.json(); // get the data past in the api request
-    const { name, image } = data; // extract the the name and image from the data object
 
+    // Get data from the API request and extract the name and image
+    const requestData = await request.json();
+    const { name, image } = requestData;
+
+    // Check if the user is authenticated
     if (!currentUser?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
     // Update the database with the new name and image
-    const updateUser = await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
         id: currentUser.id,
       },
       data: {
-        image, // could be image: image,
-        name, // could be name: name
+        image, // Shorthand property notation
+        name,
       },
     });
 
-    return NextResponse.json(updateUser);
+    // Return the updated user as JSON response
+    return NextResponse.json(updatedUser);
   } catch (error: any) {
-    console.log(error, "ERROR_SETTINGS");
+    console.error("Error in POST request:", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

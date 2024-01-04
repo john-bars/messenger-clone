@@ -1,19 +1,23 @@
-import getCurrentUser from "@/app/actions/getCurrentUser";
+import getCurrentUser from "@/libs/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
-import { pusherServer } from "@/app/libs/pusher";
+import prisma from "@/libs/prismadb";
+import { pusherServer } from "@/libs/pusher";
 
 export async function POST(request: Request) {
   try {
+    // Retrieve current user information
     const currentUser = await getCurrentUser();
+
+    // Parse the incoming JSON request body
     const body = await request.json();
     const { message, image, conversationId } = body;
 
+    // Check if the current user is authorized
     if (!currentUser?.id || !currentUser?.email) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    //Add newMessage data to the database. Add the seen[] and sender in the return object
+    // Add new message data to the database, including sender and seen information
     const newMessage = await prisma.message.create({
       data: {
         body: message,
@@ -40,7 +44,7 @@ export async function POST(request: Request) {
       },
     });
 
-    // update the conversation
+    // Update the conversation with the new message information
     const updatedConversation = await prisma.conversation.update({
       where: {
         id: conversationId,
@@ -64,25 +68,26 @@ export async function POST(request: Request) {
     });
 
     // Handles Realtime Update in Creating new Message
-
-    //pusher.trigger(channel, event, {})
     await pusherServer.trigger(conversationId, "messages:new", newMessage);
 
-    // use '-1' since indexing in array starts with 0 but array.length gets the number of elements in it.
+    // Get the last message in the updated conversation
     const lastMessage =
       updatedConversation.messages[updatedConversation.messages.length - 1];
 
-    //handles realtime conversation update for the sidebar
-    updatedConversation.users.map((user) => {
-      pusherServer.trigger(user.email!, "conversation:update", {
-        id: conversationId,
-        messages: [lastMessage],
-      });
+    // Handles realtime conversation update for the sidebar
+    updatedConversation.users.forEach((user) => {
+      if (user.email) {
+        pusherServer.trigger(user.email, "conversation:update", {
+          id: conversationId,
+          messages: [lastMessage],
+        });
+      }
     });
 
+    // Return the newly created message as a JSON response
     return NextResponse.json(newMessage);
   } catch (error: any) {
-    console.log(error, "ERROR_MESSAGES");
+    console.error("Error:", error);
     return new NextResponse("InternalError", { status: 500 });
   }
 }
