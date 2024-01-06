@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import clsx from "clsx";
+import React, { useEffect, useMemo, useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 
 // import { Conversation } from "@prisma/client";
@@ -12,7 +11,7 @@ import ConversationBox from "./ConversationBox";
 import GroupChatModal from "./GroupChatModal";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { pusherClient } from "@/libs/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { find } from "lodash";
 
 interface ConversationListProps {
@@ -104,17 +103,17 @@ const ConversationList: React.FC<ConversationListProps> = ({
         onClose={() => setIsModalOpen(false)}
       />
       <aside
-        className={clsx(
-          "fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-gray-200",
-          isOpen ? "hidden" : "block w-full t-0"
-        )}
+        className={`overflow-y-auto border-r border-gray-200 pb-20 lg:block lg:w-80 lg:bg-slate-400 lg:pb-0
+       ${isOpen ? "hidden" : "block w-full"}`}
       >
-        <div className="px-5">
-          <div className="flex justify-between mb-4 pt-4">
-            <div className="text-2xl font-bold text-neutral-800">Messages</div>
+        <div className="mt-8 flex flex-col gap-3 px-5">
+          <div className="flex items-center justify-between">
+            <div className="py-4 text-2xl font-bold text-neutral-800 dark:text-slate-100">
+              Messages
+            </div>
             <div
               onClick={() => setIsModalOpen(true)} // This opens the GroupChatModal once clicked
-              className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition"
+              className="cursor-pointer rounded-full bg-gray-100 p-2 text-gray-600 transition hover:opacity-75"
             >
               <MdOutlineGroupAdd size={20} />
             </div>

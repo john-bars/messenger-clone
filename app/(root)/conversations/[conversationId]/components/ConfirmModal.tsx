@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -38,11 +38,11 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="sm:flex sm:items-start">
-        <div className="flex items-center justify-center rounded-full mx-auto h-12 w-12 flex-shrink-0 bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+        <div className="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
           <FiAlertTriangle className="h-6 w-6 text-red-600" />
         </div>
 
-        <div className="text-center mt-3 sm:ml-4 sm:mt-0 sm:text-left">
+        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
           <Dialog.Title
             as="h3"
             className="text-base font-semibold leading-6 text-gray-900"
@@ -50,7 +50,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
             Delete Conversation
           </Dialog.Title>
           <div className="mt-2">
-            <p className="text-sm tex-gray-400">
+            <p className="text-sm text-gray-400">
               Are you sure you want to delete this conversation? This action can
               not be undone.{" "}
             </p>

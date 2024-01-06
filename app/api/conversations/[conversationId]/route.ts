@@ -1,9 +1,9 @@
 // DELETE conversation route
 
-import prisma from "@/libs/prismadb";
-import getCurrentUser from "@/libs/actions/getCurrentUser";
+import prisma from "@/lib/prismadb";
+import getCurrentUser from "@/lib/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/libs/pusher";
+import { pusherServer } from "@/lib/pusher";
 
 interface IParams {
   conversationId?: string;
@@ -15,7 +15,7 @@ export async function DELETE(
 ) {
   try {
     const currentUser = await getCurrentUser();
-    const { conversationId } = params; //extract the conversationId
+    const { conversationId } = params; // extract the conversationId
 
     if (!currentUser?.id) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -38,7 +38,7 @@ export async function DELETE(
       where: {
         id: conversationId,
 
-        //to make sure that only the part of the group can delete it.
+        // to make sure that only the part of the group can delete it.
         userIds: {
           hasSome: [currentUser.id],
         },

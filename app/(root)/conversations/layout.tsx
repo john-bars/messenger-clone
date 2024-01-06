@@ -1,6 +1,7 @@
-import getConversations from "../../../libs/actions/getConversations";
-import getUsers from "../../../libs/actions/getUsers";
-import Sidebar from "../../../components/sidebar/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
+import getConversations from "@/lib/actions/getConversations";
+import getUsers from "@/lib/actions/getUsers";
+import React from "react";
 import ConversationList from "./components/ConversationList";
 
 const ConversationsLayout = async ({
@@ -11,12 +12,11 @@ const ConversationsLayout = async ({
   const conversations = await getConversations();
   const users = await getUsers();
   return (
-    <Sidebar>
-      <div className="h-full">
-        <ConversationList initialItems={conversations} users={users} />
-        {children}
-      </div>
-    </Sidebar>
+    <div className="flex h-screen">
+      <Sidebar />
+      <ConversationList initialItems={conversations} users={users} />
+      {children}
+    </div>
   );
 };
 

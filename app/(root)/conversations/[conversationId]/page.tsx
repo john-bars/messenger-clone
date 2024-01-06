@@ -1,5 +1,5 @@
-import getConversationById from "@/libs/actions/getConversationById";
-import getMessages from "@/libs/actions/getMessages";
+import getConversationById from "@/lib/actions/getConversationById";
+import getMessages from "@/lib/actions/getMessages";
 import EmptyState from "@/components/EmptyState";
 
 import Header from "./components/Header";
@@ -16,8 +16,8 @@ const ConversationId = async ({ params }: { params: IParams }) => {
 
   if (!conversation) {
     return (
-      <div className="h-full lg:pl-80">
-        <div className="flex flex-col h-full">
+      <div className="h-full lg:pl-8">
+        <div className="flex h-full flex-col">
           <EmptyState />
         </div>
       </div>
@@ -25,8 +25,8 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   }
 
   return (
-    <div className="h-full lg:pl-80">
-      <div className="flex flex-col h-full">
+    <div className="h-full flex-1">
+      <div className="flex h-full flex-col">
         <Header conversation={conversation} />
         <Body initialMessages={messages} />
         <Form />

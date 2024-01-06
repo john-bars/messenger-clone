@@ -92,8 +92,8 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+    <section className="mx-2 mt-8 max-w-sm rounded-2xl sm:mx-auto sm:w-full sm:max-w-md dark:bg-slate-100">
+      <div className="px-4 py-8 shadow sm:rounded-lg sm:px-10 ">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
             <Input
@@ -134,7 +134,7 @@ const AuthForm = () => {
             </div>
           </div>
           <div className="relative flex justify-center text-sm">
-            <span className="bg-white px-2 text-gray-500">
+            <span className="bg-transparent px-2 text-gray-500">
               Or continue with
             </span>
           </div>
@@ -150,19 +150,18 @@ const AuthForm = () => {
             onClick={() => socialAction("google")}
           />
         </div>
-      </div>
-
-      <div className="flex justify-center gap-2 text-sm mt-6 px-2 text-gray-500">
-        <div>
-          {variant === "LOGIN"
-            ? "New to Messenger?"
-            : "Already have an account?"}
+        <div className="mt-4 flex justify-center gap-2 px-2 text-sm text-gray-500">
+          <div>
+            {variant === "LOGIN"
+              ? "New to Messenger?"
+              : "Already have an account?"}
+          </div>
+          <div onClick={toggleVariant} className="cursor-pointer underline">
+            {variant === "LOGIN" ? "Create an account" : "Login"}
+          </div>
         </div>
-        <div onClick={toggleVariant} className="underline cursor-pointer">
-          {variant === "LOGIN" ? "Create an account" : "Login"}
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

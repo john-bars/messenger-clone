@@ -1,6 +1,6 @@
-//Returns the informations of the people connected to the current User.
+// Returns the informations of the people connected to the current User.
 
-import prisma from "@/libs/prismadb";
+import prisma from "@/lib/prismadb";
 import getSession from "./getSession";
 
 const getUsers = async () => {

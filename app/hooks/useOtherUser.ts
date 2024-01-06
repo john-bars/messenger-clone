@@ -15,10 +15,10 @@ const useOtherUser = (
   const otherUser = useMemo(() => {
     const currentUserEmail = session?.data?.user?.email; // the email of the current user
     const otherUser = conversation.users.filter(
-      (user) => user.email !== currentUserEmail //return users that are not equal to the currentUser
+      (user) => user.email !== currentUserEmail // return users that are not equal to the currentUser
     );
 
-    return otherUser[0]; //get the first otther user
+    return otherUser[0]; // get the first otther user
   }, [session?.data?.user?.email, conversation.users]);
 
   return otherUser;

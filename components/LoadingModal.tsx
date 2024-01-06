@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";

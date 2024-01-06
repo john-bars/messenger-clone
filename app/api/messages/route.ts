@@ -1,7 +1,7 @@
-import getCurrentUser from "@/libs/actions/getCurrentUser";
+import getCurrentUser from "@/lib/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import prisma from "@/libs/prismadb";
-import { pusherServer } from "@/libs/pusher";
+import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const newMessage = await prisma.message.create({
       data: {
         body: message,
-        image: image,
+        image,
         conversation: {
           connect: {
             id: conversationId,

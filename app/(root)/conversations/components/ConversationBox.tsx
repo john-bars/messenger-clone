@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Conversation, Message, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 import clsx from "clsx";
@@ -66,10 +65,9 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   return (
     <div
       onClick={handleClick}
-      className={clsx(
-        "w-full relative flex items-center space-x-3  hover:bg-neutral-100 rounded-lg transition cursor-pointer p-3 ",
-        selected ? "bg-neutral-100" : "bg-white"
-      )}
+      className={`relative flex w-full cursor-pointer items-center space-x-3 rounded-lg p-3 transition hover:bg-neutral-100
+        ${selected ? "bg-neutral-100" : "bg-white"}
+     `}
     >
       {data.isGroup ? (
         <AvatarGroup users={data.users} />
@@ -78,13 +76,13 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       )}
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
-          <div className="flex justify-between items-center mb-1">
-            <p className="text-md font-medium text-gray-900">
+          <div className="mb-1 flex items-center justify-between">
+            <p className="text-sm font-medium text-gray-900">
               {data.name || otherUser.name}
             </p>
 
             {lastMessage?.createdAt && (
-              <p className="text-xs text-gray-400 font-light">
+              <p className="text-xs font-light text-gray-400">
                 {format(new Date(lastMessage.createdAt), "p")}
               </p>
             )}
@@ -92,7 +90,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
           <p
             className={clsx(
               "truncate text-sm",
-              hasSeen ? "text-gray-500" : "text-black font-medium"
+              hasSeen ? "text-gray-500" : "font-medium text-black"
             )}
           >
             {lastMessageText}

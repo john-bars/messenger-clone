@@ -1,7 +1,7 @@
-import getCurrentUser from "@/libs/actions/getCurrentUser";
+import getCurrentUser from "@/lib/actions/getCurrentUser";
 import { NextResponse } from "next/server";
-import prisma from "@/libs/prismadb";
-import { pusherServer } from "@/libs/pusher";
+import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(request: Request) {
   try {
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     });
 
     // Trigger realtime updates for creating a new conversation between two users
-    newConversation.users.map((user) => {
+    newConversation.users.forEach((user) => {
       if (user.email) {
         pusherServer.trigger(user.email, "conversation:new", newConversation);
       }

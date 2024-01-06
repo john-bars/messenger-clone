@@ -7,7 +7,7 @@ import Select from "@/components/inputs/Select";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -81,7 +81,6 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({
                 disabled={isLoading}
                 label="Members"
                 options={users.map((user) => ({
-                  //map all the users in the User[] and rturn each user id and name
                   value: user.id,
                   label: user.name,
                 }))}

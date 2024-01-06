@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface MessageInputProps {
@@ -27,7 +28,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
         autoComplete={id}
         {...register(id, { required })} // shortcut for {required: required}
         placeholder={placeholder}
-        className="w-full rounded-full text-black font-light py-2 px-4 bg-neutral-100 focus:outline-none"
+        className="w-full rounded-full bg-neutral-100 px-4 py-2 font-light text-black focus:outline-none"
       />
     </div>
   );

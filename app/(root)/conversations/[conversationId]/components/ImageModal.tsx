@@ -2,6 +2,7 @@
 
 import Modal from "@/components/Modal";
 import Image from "next/image";
+import React from "react";
 
 interface ImageModalProps {
   isOpen?: boolean;
@@ -15,7 +16,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-80 h-80">
+      <div className="h-80 w-80">
         <Image src={src} alt="Image" fill className="object-cover" />
       </div>
     </Modal>

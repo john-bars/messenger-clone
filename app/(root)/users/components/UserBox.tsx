@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { User } from "@prisma/client";
 import Avatar from "@/components/Avatar";
 import LoadingModal from "@/components/LoadingModal";
@@ -33,12 +33,12 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       {isLoading && <LoadingModal />}
       <div
         onClick={handleClick}
-        className="w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer"
+        className="relative flex w-full cursor-pointer items-center space-x-3 rounded-lg bg-white p-3 transition hover:bg-neutral-100"
       >
         <Avatar user={data} />
         <div className="min-w-0 flex-1">
           <div className="focus:outline-none">
-            <div className="flex justify-between items-center mb-1">
+            <div className="mb-1 flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">{data.name}</p>
             </div>
           </div>

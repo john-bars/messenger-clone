@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FullMessageType } from "@/types";
 import useConversation from "@/app/hooks/useConversation";
 
 import MessageBox from "./MessageBox";
-import { pusherClient } from "@/libs/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { find } from "lodash";
 
 interface BodyProps {
@@ -23,18 +23,18 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   }, [conversationId]);
 
   useEffect(() => {
-    //subscribe to the channel conversationId
+    // subscribe to the channel conversationId
     pusherClient.subscribe(conversationId);
 
-    //scroll down to the latest message
+    // scroll down to the latest message
     bottomRef?.current?.scrollIntoView();
 
     const messageHandler = (message: FullMessageType) => {
-      //alert everyone that you have seen the new message
+      // alert everyone that you have seen the new message
       axios.post(`/api/conversations/${conversationId}/seen`);
 
       setMessages((current) => {
-        //check if the new message comming in is already in the array of the current message
+        // check if the new message comming in is already in the array of the current message
         if (find(current, { id: message.id })) {
           return current;
         }
@@ -63,7 +63,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
     pusherClient.bind("messages:new", messageHandler);
     pusherClient.bind("message:update", updateMessageHandler);
 
-    //unsubscribe and unbind everytime you unmount to avoid an overflow
+    // unsubscribe and unbind everytime you unmount to avoid an overflow
     return () => {
       pusherClient.unsubscribe(conversationId);
       pusherClient.unbind("messages:new", messageHandler);

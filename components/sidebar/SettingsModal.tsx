@@ -3,7 +3,7 @@
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Modal from "../Modal";
@@ -91,7 +91,11 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                   width={48}
                   height={48}
                   className="rounded-full"
-                  src={image || currentUser?.image || "/images/placeholder.jpg"}
+                  src={
+                    image ||
+                    currentUser?.image ||
+                    "/assets/images/placeholder.jpg"
+                  }
                   alt="Avatar"
                 />
                 <CldUploadButton

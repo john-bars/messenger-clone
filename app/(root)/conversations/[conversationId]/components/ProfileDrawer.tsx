@@ -1,6 +1,7 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
 
-import { Fragment, useMemo, useState } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 
 import useOtherUser from "@/app/hooks/useOtherUser";
 import { Conversation, User } from "@prisma/client";
@@ -70,7 +71,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
           <div className="fixed inset-0 overflow-hidden">
             <div className="absolute inset-0 overflow-hidden">
-              <div className="fixed right-0 pointer-events-none flex inset-y-0 max-w-full pl-10">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
                 <Transition.Child
                   as={Fragment}
                   enter="transform transition ease-in-out duration-500"
@@ -80,14 +81,14 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex flex-col h-full overflow-y-scroll bg-white py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-end">
-                          <div className="flex items-center ml-3 h-7">
+                          <div className="ml-3 flex h-7 items-center">
                             <button
                               onClick={onClose}
                               type="button"
-                              className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                             >
                               <span className="sr-only">Close panel</span>
                               <IoClose size={24} />
@@ -109,12 +110,12 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                             {statusText}
                           </div>
 
-                          <div className="flex my-8 gap-10">
+                          <div className="my-8 flex gap-10">
                             <div
                               onClick={() => setconfirmOpen(true)}
-                              className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
+                              className="flex cursor-pointer flex-col items-center gap-3 hover:opacity-75"
                             >
-                              <div className="flex items-center justify-center rounded-full w-10 h-10 bg-neutral-100">
+                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100">
                                 <IoTrash size={20} />
                               </div>
                               <div className="text-sm font-light text-neutral-600">
@@ -124,10 +125,10 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                           </div>
 
                           <div className="w-full py-5 sm:px-0 sm:pt-0">
-                            <dl className="px-4 sm:px-6 space-y-8 sm:space-y-6">
+                            <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
                               {data.isGroup && (
                                 <div>
-                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
                                     Emails
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
@@ -139,7 +140,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                               )}
                               {!data.isGroup && (
                                 <div>
-                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
                                     Email
                                   </dt>
                                   <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
@@ -151,7 +152,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                                 <>
                                   <hr />
                                   <div>
-                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:shrink-0">
                                       Joined
                                     </dt>
                                     <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
